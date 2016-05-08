@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui">  
+  
+    <h:head>  
+  
+    </h:head>  
+      
+    <h:body>  
+		
+		<h:form>
+			<p:growl id="msg"/>
+			<p:panel header="Formulario de Clientes" id="pnlFormularioClientes">
+				<h:panelGrid columns="2" border="0">
+					<p:outputLabel value="Id"/>
+					<p:inputText id="txtIdentificacion" binding="#{clienteVista.txtIdentificacion}" >
+						<p:ajax listener="#{clienteVista.txtIdentificacionListener}" update="pnlFormularioClientes"/>
+					</p:inputText>
+					
+					<p:outputLabel value="Tipo Documento"/>
+					<p:selectOneMenu id="somTipoDocumento" binding="#{clienteVista.somTipoDocumento}">
+						<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
+						<f:selectItems value="#{clienteVista.losTipoDocumentosItem}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Nombre"/>
+					<p:inputText id="txtNombre" binding="#{clienteVista.txtNombre}"/>
+					
+					<p:outputLabel value="Dirección"/>
+					<p:inputText id="txtDireccion" binding="#{clienteVista.txtDireccion}" />
+					
+					<p:outputLabel value="Telefono"/>
+					<p:inputText id="txtTelefono" binding="#{clienteVista.txtTelefono}" />
+					
+					<p:outputLabel value="Mail"/>
+					<p:inputText id="txtMail" binding="#{clienteVista.txtMail}"/>
+					
+				</h:panelGrid>
+				<h:panelGrid columns="4" border="0">
+					<p:commandButton id="btnCrear" value="Crear"         binding="#{clienteVista.btnCrear}"     disabled="true"   action="#{clienteVista.crearAction}"     update="msg, pnlFormularioClientes"/>
+					<p:commandButton id="btnModificar" value="Modificar" binding="#{clienteVista.btnModificar}" disabled="true"   action="#{clienteVista.modificarAction}" update="msg, pnlFormularioClientes"/>
+					<p:commandButton id="btnBorrar" value="Borrar"       binding="#{clienteVista.btnBorrar}"    disabled="true"   action="#{clienteVista.borrarAction}"    update="msg, pnlFormularioClientes"/>
+					<p:commandButton id="btnLimpiar" value="Limpiar"     binding="#{clienteVista.btnLimpiar}"   disabled="false"  action="#{clienteVista.limpiarAction}"   update="msg, pnlFormularioClientes"/>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>      
+          
+    </h:body>  
+</html> 
