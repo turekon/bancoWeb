@@ -62,6 +62,8 @@ public class ClienteVista {
 			
 			delegadoDeNegocio.grabarClientes(clientes);
 			
+			limpiarAction();
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El cliente se creó con éxito", ""));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
@@ -85,6 +87,8 @@ public class ClienteVista {
 			
 			delegadoDeNegocio.modificarClientes(clientes);
 			
+			limpiarAction();
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El cliente se modificó con éxito", ""));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
@@ -101,6 +105,8 @@ public class ClienteVista {
 			
 			delegadoDeNegocio.borrarClientes(clientes);
 			
+			limpiarAction();
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El cliente se eliminó con éxito", ""));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
@@ -110,6 +116,7 @@ public class ClienteVista {
 	
 	public String limpiarAction(){
 		log.info("ingresó a limpiar");
+		
 		txtIdentificacion.resetValue();
 		txtDireccion.resetValue();
 		txtMail.resetValue();
@@ -120,6 +127,7 @@ public class ClienteVista {
 		btnBorrar.setDisabled(true);
 		btnCrear.setDisabled(true);
 		btnModificar.setDisabled(true);
+		
 		return "";
 	}
 	
