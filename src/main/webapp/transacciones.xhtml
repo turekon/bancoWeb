@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions">  
+  
+    <h:head>  
+  
+    </h:head>  
+      
+    <h:body>  
+		
+		<h:form>
+			<p:growl id="msg"/>
+			<p:panel header="Formulario de Transacciones" id="pnlFormularioTransacciones">
+				<h:panelGrid columns="1" >
+					
+					
+					<p:panelGrid columns="3" border="0">
+						<p:outputLabel value="Cliente"/>
+						<p:inputText id="txtCedulaCliente" binding="#{transaccionesVista.txtCedulaCliente}">
+							<p:ajax listener="#{transaccionesVista.txtCedulaClienteListener}" update="msg, pnlFormularioTransacciones"/>
+						</p:inputText>
+						<p:inputText id="txtNombreCliente" binding="#{transaccionesVista.txtNombreCliente}" readonly="true"/>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nro de Cuenta"/>
+						<p:selectOneMenu id="somNumeroCuenta" binding="#{transaccionesVista.somNumeroCuenta}">
+							<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
+							<f:selectItems value="#{transaccionesVista}"/>
+						</p:selectOneMenu>
+					</p:panelGrid>					
+					
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Cajero"/>
+						<p:selectOneMenu id="somCajero" >
+							<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
+						</p:selectOneMenu>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Valor"/>
+						<pe:inputNumber id="txtValor" symbol="$" symbolPosition="p" decimalPlaces="2" />				
+					</p:panelGrid>
+					
+				</h:panelGrid>
+				<h:panelGrid columns="4" border="0">
+					<p:commandButton id="btnConsignar" value="Consignar"   binding="#{transaccionesVista.btnConsignar}"  disabled="true"   action="#{transaccionesVista.crearAction}"     update="msg, pnlFormularioTransacciones"/>
+					<p:commandButton id="btnRetirar"   value="Retirar"     binding="#{transaccionesVista.btnRetirar}"    disabled="true"   action="#{transaccionesVista.modificarAction}" update="msg, pnlFormularioTransacciones"/>
+					<p:commandButton id="btnLimpiar"   value="Limpiar"     binding="#{transaccionesVista.btnLimpiar}"    disabled="false"  action="#{transaccionesVista.limpiarAction}"   update="msg, pnlFormularioTransacciones"/>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>      
+          
+    </h:body>  
+</html> 
