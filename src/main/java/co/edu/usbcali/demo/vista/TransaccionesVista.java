@@ -1,5 +1,6 @@
 package co.edu.usbcali.demo.vista;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import co.edu.usbcali.demo.delegado.IDelegadoDeNegocio;
 import co.edu.usbcali.demo.modelo.Clientes;
 import co.edu.usbcali.demo.modelo.Cuentas;
+import co.edu.usbcali.demo.modelo.Usuarios;
 
 @ViewScoped
 @ManagedBean
@@ -47,7 +49,7 @@ public class TransaccionesVista {
 	private CommandButton btnLimpiar;
 	
 	public String consignarAction(){
-		log.info("Ingresó a consignar");
+		log.info("Ingresó a Consignar");
 		
 		
 		
@@ -55,14 +57,27 @@ public class TransaccionesVista {
 	}
 	
 	public String retirarAction(){
-		log.info("Ingresó a consignar");
+		log.info("Ingresó a Retirar");
 		
 		return "";
 	}
 	
 	public String limpiarAction(){
-		log.info("Ingresó a consignar");
+		log.info("Ingresó a Limpiar");
 		
+		txtCedulaCliente.resetValue();
+		txtNombreCliente.resetValue();
+		somNumeroCuenta.setValue("-1");
+		somCajero.setValue("-1");
+		txtValor.resetValue();
+		
+		txtNombreCliente.setReadonly(true);
+		somNumeroCuenta.setDisabled(true);
+		somCajero.setDisabled(true);
+		txtValor.setDisabled(true);
+		
+		btnConsignar.setDisabled(true);
+		btnRetirar.setDisabled(true);
 		return "";
 	}
 	
@@ -91,6 +106,11 @@ public class TransaccionesVista {
 				somCajero.setValue("-1");
 				txtValor.resetValue();
 				
+				txtNombreCliente.setReadonly(true);
+				somNumeroCuenta.setDisabled(true);
+				somCajero.setDisabled(true);
+				txtValor.setDisabled(true);
+				
 				btnConsignar.setDisabled(true);
 				btnRetirar.setDisabled(true);
 			}else {
@@ -99,12 +119,49 @@ public class TransaccionesVista {
 				somCajero.setValue("-1");
 				txtValor.resetValue();
 				
+				somNumeroCuenta.setDisabled(false);
+				somCajero.setDisabled(false);
+				txtValor.setDisabled(false);
+				
+				//this.getLasCuentasItem();
+				this.consultarCuentas();
+				
 				btnConsignar.setDisabled(true);
 				btnRetirar.setDisabled(true);
 			}
 		
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+			e.printStackTrace();
+		}
+	}
+	
+	public void txtValorListener() {
+		log.info("Ingresó a listener de txtxValor");
+		
+		int signoValor = new BigDecimal(txtValor.getValue().toString()).signum();
+		if (signoValor == -1) {
+			btnConsignar.setDisabled(false);
+			btnRetirar.setDisabled(true);
+		}else if (signoValor == 1) {
+			btnConsignar.setDisabled(true);
+			btnRetirar.setDisabled(false);
+		} 
+	}
+	
+	private void consultarCuentas(){
+		try {
+			if (lasCuentasItem == null) {
+				lasCuentasItem = new ArrayList<SelectItem>();
+				if (txtCedulaCliente.getValue() != null && !txtCedulaCliente.getValue().toString().trim().isEmpty()) {
+					List<Cuentas> listaCuentasItem = delegadoDeNegocio.consultarCuentasPorCliente(Long.parseLong(txtCedulaCliente.getValue().toString().trim()));
+					for (Cuentas cuentas : listaCuentasItem) {
+						lasCuentasItem.add(new SelectItem(cuentas.getCueNumero(), cuentas.getCueNumero()));
+					}					
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -205,18 +262,7 @@ public class TransaccionesVista {
 	}
 
 	public List<SelectItem> getLasCuentasItem() {
-		try {
-			if (lasCuentasItem == null) {
-				lasCuentasItem = new ArrayList<SelectItem>();
-				List<Cuentas> listaCuentasItem = delegadoDeNegocio.consultarTodosCuentas();
-				for (Cuentas cuentas : listaCuentasItem) {
-					lasCuentasItem.add(new SelectItem(cuentas.getCueNumero(), cuentas.getCueNumero()));
-				}
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return lasCuentasItem;
 	}
 
@@ -225,6 +271,19 @@ public class TransaccionesVista {
 	}
 
 	public List<SelectItem> getLosCajerosItem() {
+		try {
+			if (losCajerosItem == null) {
+				losCajerosItem = new ArrayList<SelectItem>();
+				Long tipoUsuarioCodigo = 10L; // cajero
+				List<Usuarios> listaUsuariosItem = delegadoDeNegocio.consultarUsuariosPorTipoUsuario(tipoUsuarioCodigo);
+				for (Usuarios usuarios : listaUsuariosItem) {
+					losCajerosItem.add(new SelectItem(usuarios.getUsuCedula(), usuarios.getUsuNombre()));
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return losCajerosItem;
 	}
 

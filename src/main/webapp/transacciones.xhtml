@@ -13,39 +13,40 @@
 		<h:form>
 			<p:growl id="msg"/>
 			<p:panel header="Formulario de Transacciones" id="pnlFormularioTransacciones">
-				<h:panelGrid columns="1" >
-					
-					
-					<p:panelGrid columns="3" border="0">
+				<h:panelGrid columns="1" border="0" >
+					<h:panelGrid columns="3" border="0">
 						<p:outputLabel value="Cliente"/>
-						<p:inputText id="txtCedulaCliente" binding="#{transaccionesVista.txtCedulaCliente}">
+						<p:inputText id="txtCedulaCliente" binding="#{transaccionesVista.txtCedulaCliente}" required="true">
 							<p:ajax listener="#{transaccionesVista.txtCedulaClienteListener}" update="msg, pnlFormularioTransacciones"/>
 						</p:inputText>
 						<p:inputText id="txtNombreCliente" binding="#{transaccionesVista.txtNombreCliente}" readonly="true"/>
-					</p:panelGrid>
+					</h:panelGrid>
 					
-					<p:panelGrid columns="2">
+					<h:panelGrid columns="2">
 						<p:outputLabel value="Nro de Cuenta"/>
-						<p:selectOneMenu id="somNumeroCuenta" binding="#{transaccionesVista.somNumeroCuenta}">
+						<p:selectOneMenu id="somNumeroCuenta" binding="#{transaccionesVista.somNumeroCuenta}" disabled="true" required="true">
 							<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
-							<f:selectItems value="#{transaccionesVista}"/>
+							<f:selectItems value="#{transaccionesVista.lasCuentasItem}"/>
 						</p:selectOneMenu>
-					</p:panelGrid>					
+					</h:panelGrid>					
 					
-					<p:panelGrid columns="2">
+					<h:panelGrid columns="2">
 						<p:outputLabel value="Cajero"/>
-						<p:selectOneMenu id="somCajero" >
+						<p:selectOneMenu id="somCajero" binding="#{transaccionesVista.somCajero}" disabled="true" required="true">
 							<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
+							<f:selectItems value="#{transaccionesVista.losCajerosItem}"/>
 						</p:selectOneMenu>
-					</p:panelGrid>
+					</h:panelGrid>
 					
-					<p:panelGrid columns="2">
+					<h:panelGrid columns="2">
 						<p:outputLabel value="Valor"/>
-						<pe:inputNumber id="txtValor" symbol="$" symbolPosition="p" decimalPlaces="2" />				
-					</p:panelGrid>
+						<pe:inputNumber id="txtValor" symbol="$" symbolPosition="p" decimalPlaces="2" binding="#{transaccionesVista.txtValor}" disabled="true" minValue="-9999999999.99" maxValue="9999999999.99" required="true">
+							<p:ajax listener="#{transaccionesVista.txtValorListener}" update="msg, pnlBotones" />
+						</pe:inputNumber> 				
+					</h:panelGrid>
 					
 				</h:panelGrid>
-				<h:panelGrid columns="4" border="0">
+				<h:panelGrid id="pnlBotones" columns="4" border="0">
 					<p:commandButton id="btnConsignar" value="Consignar"   binding="#{transaccionesVista.btnConsignar}"  disabled="true"   action="#{transaccionesVista.crearAction}"     update="msg, pnlFormularioTransacciones"/>
 					<p:commandButton id="btnRetirar"   value="Retirar"     binding="#{transaccionesVista.btnRetirar}"    disabled="true"   action="#{transaccionesVista.modificarAction}" update="msg, pnlFormularioTransacciones"/>
 					<p:commandButton id="btnLimpiar"   value="Limpiar"     binding="#{transaccionesVista.btnLimpiar}"    disabled="false"  action="#{transaccionesVista.limpiarAction}"   update="msg, pnlFormularioTransacciones"/>
