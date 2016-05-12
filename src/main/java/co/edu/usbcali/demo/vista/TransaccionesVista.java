@@ -2,6 +2,7 @@ package co.edu.usbcali.demo.vista;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -20,7 +21,11 @@ import org.slf4j.LoggerFactory;
 
 import co.edu.usbcali.demo.delegado.IDelegadoDeNegocio;
 import co.edu.usbcali.demo.modelo.Clientes;
+import co.edu.usbcali.demo.modelo.Consignaciones;
+import co.edu.usbcali.demo.modelo.ConsignacionesId;
 import co.edu.usbcali.demo.modelo.Cuentas;
+import co.edu.usbcali.demo.modelo.Retiros;
+import co.edu.usbcali.demo.modelo.RetirosId;
 import co.edu.usbcali.demo.modelo.Usuarios;
 
 @ViewScoped
@@ -43,6 +48,7 @@ public class TransaccionesVista {
 	private SelectOneMenu somNumeroCuenta;
 	private SelectOneMenu somCajero;
 	private InputNumber txtValor;
+	private InputText txtDescripcion;
 	
 	private CommandButton btnConsignar;
 	private CommandButton btnRetirar;
@@ -51,13 +57,52 @@ public class TransaccionesVista {
 	public String consignarAction(){
 		log.info("Ingresó a Consignar");
 		
-		
-		
+		try {
+			Long consecutivo = delegadoDeNegocio.consultarMaxConsecutivoConsignaciones();
+			consecutivo++;
+			Consignaciones consignaciones = new Consignaciones();
+			consignaciones.setConDescripcion(txtDescripcion.getValue().toString().trim());
+			consignaciones.setConFecha(new Date());
+			consignaciones.setConValor(new BigDecimal(txtValor.getValue().toString()));
+			consignaciones.setCuentas(delegadoDeNegocio.consultarCuentasPorId(somNumeroCuenta.getValue().toString()));
+			consignaciones.setId(new ConsignacionesId(consecutivo, somNumeroCuenta.getValue().toString()));
+			consignaciones.setUsuarios(delegadoDeNegocio.consultarUsuariosPorId(Long.parseLong(somCajero.getValue().toString())));
+	
+			delegadoDeNegocio.grabarConsignaciones(consignaciones);
+			
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "Consignación realizada con éxito", ""));
+			
+			limpiarAction();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+			e.printStackTrace();
+		}
 		return "";
 	}
 	
 	public String retirarAction(){
 		log.info("Ingresó a Retirar");
+		
+		try {
+			Long consecutivo = delegadoDeNegocio.consultarMaxConsecutivoRetiros();
+			consecutivo++;
+			Retiros retiros = new Retiros();
+			retiros.setCuentas(delegadoDeNegocio.consultarCuentasPorId(somNumeroCuenta.getValue().toString()));
+			retiros.setId(new RetirosId(consecutivo, somNumeroCuenta.getValue().toString()));
+			retiros.setRetDescripcion(txtDescripcion.getValue().toString().trim());
+			retiros.setRetFecha(new Date());
+			retiros.setRetValor(new BigDecimal(txtValor.getValue().toString()));
+			retiros.setUsuarios(delegadoDeNegocio.consultarUsuariosPorId(Long.parseLong(somCajero.getValue().toString())));
+			
+			delegadoDeNegocio.grabarRetiros(retiros);
+			
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "Retiro realizado con éxito", ""));
+			
+			limpiarAction();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+			e.printStackTrace();
+		}
 		
 		return "";
 	}
@@ -70,11 +115,13 @@ public class TransaccionesVista {
 		somNumeroCuenta.setValue("-1");
 		somCajero.setValue("-1");
 		txtValor.resetValue();
+		txtDescripcion.resetValue();
 		
 		txtNombreCliente.setReadonly(true);
 		somNumeroCuenta.setDisabled(true);
 		somCajero.setDisabled(true);
 		txtValor.setDisabled(true);
+		txtDescripcion.setDisabled(true);
 		
 		btnConsignar.setDisabled(true);
 		btnRetirar.setDisabled(true);
@@ -105,11 +152,13 @@ public class TransaccionesVista {
 				somNumeroCuenta.setValue("-1");
 				somCajero.setValue("-1");
 				txtValor.resetValue();
+				txtDescripcion.resetValue();
 				
 				txtNombreCliente.setReadonly(true);
 				somNumeroCuenta.setDisabled(true);
 				somCajero.setDisabled(true);
 				txtValor.setDisabled(true);
+				txtDescripcion.setDisabled(true);
 				
 				btnConsignar.setDisabled(true);
 				btnRetirar.setDisabled(true);
@@ -118,35 +167,24 @@ public class TransaccionesVista {
 				somNumeroCuenta.setValue("-1");
 				somCajero.setValue("-1");
 				txtValor.resetValue();
+				txtDescripcion.resetValue();
 				
 				somNumeroCuenta.setDisabled(false);
 				somCajero.setDisabled(false);
 				txtValor.setDisabled(false);
+				txtDescripcion.setDisabled(false);
 				
 				//this.getLasCuentasItem();
 				this.consultarCuentas();
 				
-				btnConsignar.setDisabled(true);
-				btnRetirar.setDisabled(true);
+				btnConsignar.setDisabled(false);
+				btnRetirar.setDisabled(false);
 			}
 		
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
 			e.printStackTrace();
 		}
-	}
-	
-	public void txtValorListener() {
-		log.info("Ingresó a listener de txtxValor");
-		
-		int signoValor = new BigDecimal(txtValor.getValue().toString()).signum();
-		if (signoValor == -1) {
-			btnConsignar.setDisabled(false);
-			btnRetirar.setDisabled(true);
-		}else if (signoValor == 1) {
-			btnConsignar.setDisabled(true);
-			btnRetirar.setDisabled(false);
-		} 
 	}
 	
 	private void consultarCuentas(){
@@ -262,7 +300,20 @@ public class TransaccionesVista {
 	}
 
 	public List<SelectItem> getLasCuentasItem() {
-		
+		try {
+			if (lasCuentasItem == null) {
+				lasCuentasItem = new ArrayList<SelectItem>();
+				if (txtCedulaCliente.getValue() != null && !txtCedulaCliente.getValue().toString().trim().isEmpty()) {
+					List<Cuentas> listaCuentasItem = delegadoDeNegocio.consultarCuentasPorCliente(Long.parseLong(txtCedulaCliente.getValue().toString().trim()));
+					for (Cuentas cuentas : listaCuentasItem) {
+						lasCuentasItem.add(new SelectItem(cuentas.getCueNumero(), cuentas.getCueNumero()));
+					}					
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return lasCuentasItem;
 	}
 
@@ -289,6 +340,14 @@ public class TransaccionesVista {
 
 	public void setLosCajerosItem(List<SelectItem> losCajerosItem) {
 		this.losCajerosItem = losCajerosItem;
+	}
+
+	public InputText getTxtDescripcion() {
+		return txtDescripcion;
+	}
+
+	public void setTxtDescripcion(InputText txtDescripcion) {
+		this.txtDescripcion = txtDescripcion;
 	}
 	
 	
