@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -53,6 +54,20 @@ public class TransaccionesVista {
 	private CommandButton btnConsignar;
 	private CommandButton btnRetirar;
 	private CommandButton btnLimpiar;
+	
+	private List<String> images;
+    
+    @PostConstruct
+    public void init() {
+        images = new ArrayList<String>();
+        for (int i = 1; i <= 7; i++) {
+            images.add("nature" + i + ".jpg");
+        }
+    }
+ 
+    public List<String> getImages() {
+        return images;
+    }
 	
 	public String consignarAction(){
 		log.info("Ingresó a Consignar");

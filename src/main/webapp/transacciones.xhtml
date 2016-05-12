@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  
     xmlns:h="http://java.sun.com/jsf/html"  
     xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:pe="http://primefaces.org/ui/extensions">  
   
@@ -9,53 +10,73 @@
     </h:head>  
       
     <h:body>  
+		   	
+		<h:graphicImage value="/img/logo-monopoly2.jpg" style="margin-left: auto; margin-right: auto; display: block;"/>
+		<p:layout style="min-width:400px;min-height:200px;">
+		    <p:layoutUnit position="west" resizable="true" >
+		        <p:menu toggleable="true">
+			        <p:submenu label="Catalogos">
+			            <p:menuitem value="Cliente" outcome="/cliente.xhtml" icon="ui-icon-star"/>
+			            <p:menuitem value="ClienteVista" outcome="/clienteVista.xhtml" icon="ui-icon-star"/>
+			            <p:menuitem value="Usuarios" outcome="/usuario.xhtml" icon="ui-icon-star"/>
+			        </p:submenu>
+			        <p:submenu label="Transacciones">
+			            <p:menuitem value="Transacciones" outcome="/transacciones.xhtml" icon="ui-icon-star"/>
+			        </p:submenu>
+			    </p:menu>
+		    </p:layoutUnit>
+		 
+		    <p:layoutUnit position="center">
+		        <h:form>
+					<p:growl id="msg"/>
+					<p:panel header="Formulario de Transacciones" id="pnlFormularioTransacciones">
+						<h:panelGrid columns="1" border="0" >
+							<h:panelGrid columns="3" border="0">
+								<p:outputLabel value="Cliente"/>
+								<p:inputText id="txtCedulaCliente" binding="#{transaccionesVista.txtCedulaCliente}" >
+									<p:ajax listener="#{transaccionesVista.txtCedulaClienteListener}" update="msg, pnlFormularioTransacciones"/>
+								</p:inputText>
+								<p:inputText id="txtNombreCliente" binding="#{transaccionesVista.txtNombreCliente}" readonly="true"/>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Nro de Cuenta"/>
+								<p:selectOneMenu id="somNumeroCuenta" binding="#{transaccionesVista.somNumeroCuenta}" disabled="true" >
+									<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
+									<f:selectItems value="#{transaccionesVista.lasCuentasItem}"/>
+								</p:selectOneMenu>
+							</h:panelGrid>					
+							
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Cajero"/>
+								<p:selectOneMenu id="somCajero" binding="#{transaccionesVista.somCajero}" disabled="true" >
+									<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
+									<f:selectItems value="#{transaccionesVista.losCajerosItem}"/>
+								</p:selectOneMenu>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Valor"/>
+								<pe:inputNumber id="txtValor" symbol="$" symbolPosition="p" decimalPlaces="2" binding="#{transaccionesVista.txtValor}" disabled="true" minValue="0.00" maxValue="9999999999.99" />
+							</h:panelGrid>
+							
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Descripción"/>
+								<p:inputText id="txtDescripcion" binding="#{transaccionesVista.txtDescripcion}" disabled="true" />
+							</h:panelGrid>
+							
+						</h:panelGrid>
+						<h:panelGrid id="pnlBotones" columns="4" border="0">
+							<p:commandButton id="btnConsignar" value="Consignar"   binding="#{transaccionesVista.btnConsignar}"  disabled="true"   action="#{transaccionesVista.consignarAction}"     update="msg, pnlFormularioTransacciones"/>
+							<p:commandButton id="btnRetirar"   value="Retirar"     binding="#{transaccionesVista.btnRetirar}"    disabled="true"   action="#{transaccionesVista.retirarAction}" update="msg, pnlFormularioTransacciones"/>
+							<p:commandButton id="btnLimpiar"   value="Limpiar"     binding="#{transaccionesVista.btnLimpiar}"    disabled="false"  action="#{transaccionesVista.limpiarAction}"   update="msg, pnlFormularioTransacciones"/>
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+		    </p:layoutUnit>
+		</p:layout>
 		
-		<h:form>
-			<p:growl id="msg"/>
-			<p:panel header="Formulario de Transacciones" id="pnlFormularioTransacciones">
-				<h:panelGrid columns="1" border="0" >
-					<h:panelGrid columns="3" border="0">
-						<p:outputLabel value="Cliente"/>
-						<p:inputText id="txtCedulaCliente" binding="#{transaccionesVista.txtCedulaCliente}" >
-							<p:ajax listener="#{transaccionesVista.txtCedulaClienteListener}" update="msg, pnlFormularioTransacciones"/>
-						</p:inputText>
-						<p:inputText id="txtNombreCliente" binding="#{transaccionesVista.txtNombreCliente}" readonly="true"/>
-					</h:panelGrid>
-					
-					<h:panelGrid columns="2">
-						<p:outputLabel value="Nro de Cuenta"/>
-						<p:selectOneMenu id="somNumeroCuenta" binding="#{transaccionesVista.somNumeroCuenta}" disabled="true" >
-							<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
-							<f:selectItems value="#{transaccionesVista.lasCuentasItem}"/>
-						</p:selectOneMenu>
-					</h:panelGrid>					
-					
-					<h:panelGrid columns="2">
-						<p:outputLabel value="Cajero"/>
-						<p:selectOneMenu id="somCajero" binding="#{transaccionesVista.somCajero}" disabled="true" >
-							<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
-							<f:selectItems value="#{transaccionesVista.losCajerosItem}"/>
-						</p:selectOneMenu>
-					</h:panelGrid>
-					
-					<h:panelGrid columns="2">
-						<p:outputLabel value="Valor"/>
-						<pe:inputNumber id="txtValor" symbol="$" symbolPosition="p" decimalPlaces="2" binding="#{transaccionesVista.txtValor}" disabled="true" minValue="0.00" maxValue="9999999999.99" />
-					</h:panelGrid>
-					
-					<h:panelGrid columns="2">
-						<p:outputLabel value="Descripción"/>
-						<p:inputText id="txtDescripcion" binding="#{transaccionesVista.txtDescripcion}" disabled="true" />
-					</h:panelGrid>
-					
-				</h:panelGrid>
-				<h:panelGrid id="pnlBotones" columns="4" border="0">
-					<p:commandButton id="btnConsignar" value="Consignar"   binding="#{transaccionesVista.btnConsignar}"  disabled="true"   action="#{transaccionesVista.consignarAction}"     update="msg, pnlFormularioTransacciones"/>
-					<p:commandButton id="btnRetirar"   value="Retirar"     binding="#{transaccionesVista.btnRetirar}"    disabled="true"   action="#{transaccionesVista.retirarAction}" update="msg, pnlFormularioTransacciones"/>
-					<p:commandButton id="btnLimpiar"   value="Limpiar"     binding="#{transaccionesVista.btnLimpiar}"    disabled="false"  action="#{transaccionesVista.limpiarAction}"   update="msg, pnlFormularioTransacciones"/>
-				</h:panelGrid>
-			</p:panel>
-		</h:form>      
+		      
           
     </h:body>  
 </html> 

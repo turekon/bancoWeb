@@ -8,43 +8,78 @@
     </h:head>  
       
     <h:body>  
-		
-		<h:form>
-			<p:growl id="msg"/>
-			<p:panel header="Formulario de Clientes" id="pnlFormularioClientes">
-				<h:panelGrid columns="2" border="0">
-					<p:outputLabel value="Id"/>
-					<p:inputText id="txtIdentificacion" binding="#{clienteVista.txtIdentificacion}" >
-						<p:ajax listener="#{clienteVista.txtIdentificacionListener}" update="pnlFormularioClientes"/>
-					</p:inputText>
-					
-					<p:outputLabel value="Tipo Documento"/>
-					<p:selectOneMenu id="somTipoDocumento" binding="#{clienteVista.somTipoDocumento}">
-						<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
-						<f:selectItems value="#{clienteVista.losTipoDocumentosItem}"/>
-					</p:selectOneMenu>
-					
-					<p:outputLabel value="Nombre"/>
-					<p:inputText id="txtNombre" binding="#{clienteVista.txtNombre}"/>
-					
-					<p:outputLabel value="Dirección"/>
-					<p:inputText id="txtDireccion" binding="#{clienteVista.txtDireccion}" />
-					
-					<p:outputLabel value="Telefono"/>
-					<p:inputText id="txtTelefono" binding="#{clienteVista.txtTelefono}" />
-					
-					<p:outputLabel value="Mail"/>
-					<p:inputText id="txtMail" binding="#{clienteVista.txtMail}"/>
-					
-				</h:panelGrid>
-				<h:panelGrid columns="4" border="0">
-					<p:commandButton id="btnCrear" value="Crear"         binding="#{clienteVista.btnCrear}"     disabled="true"   action="#{clienteVista.crearAction}"     update="msg, pnlFormularioClientes"/>
-					<p:commandButton id="btnModificar" value="Modificar" binding="#{clienteVista.btnModificar}" disabled="true"   action="#{clienteVista.modificarAction}" update="msg, pnlFormularioClientes"/>
-					<p:commandButton id="btnBorrar" value="Borrar"       binding="#{clienteVista.btnBorrar}"    disabled="true"   action="#{clienteVista.borrarAction}"    update="msg, pnlFormularioClientes"/>
-					<p:commandButton id="btnLimpiar" value="Limpiar"     binding="#{clienteVista.btnLimpiar}"   disabled="false"  action="#{clienteVista.limpiarAction}"   update="msg, pnlFormularioClientes"/>
-				</h:panelGrid>
-			</p:panel>
-		</h:form>      
+		<h:graphicImage value="/img/logo-monopoly2.jpg" style="margin-left: auto; margin-right: auto; display: block;"/>
+		<p:layout style="min-width:400px;min-height:200px;">
+		    <p:layoutUnit position="west" resizable="true" >
+		        <p:menu toggleable="true">
+			        <p:submenu label="Catalogos">
+			            <p:menuitem value="Cliente" outcome="/cliente.xhtml" icon="ui-icon-star"/>
+			            <p:menuitem value="Usuarios" outcome="/usuario.xhtml" icon="ui-icon-star"/>
+			        </p:submenu>
+			        <p:submenu label="Transacciones">
+			            <p:menuitem value="Transacciones" outcome="/transacciones.xhtml" icon="ui-icon-star"/>
+			        </p:submenu>
+			    </p:menu>
+		    </p:layoutUnit>
+		 
+		    <p:layoutUnit position="center">
+				<h:form>
+					<p:growl id="msg"/>
+					<p:panel header="Formulario de Clientes" id="pnlFormularioClientes">
+						<h:panelGrid columns="2" border="0">
+							<p:outputLabel value="Id"/>
+							<p:inputText id="txtIdentificacion" binding="#{clienteVista.txtIdentificacion}" >
+								<p:ajax listener="#{clienteVista.txtIdentificacionListener}" update="pnlFormularioClientes"/>
+							</p:inputText>
+							
+							<p:outputLabel value="Tipo Documento"/>
+							<p:selectOneMenu id="somTipoDocumento" binding="#{clienteVista.somTipoDocumento}">
+								<f:selectItem itemLabel="-Seleccione-" itemValue="-1"/>
+								<f:selectItems value="#{clienteVista.losTipoDocumentosItem}"/>
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Nombre"/>
+							<p:inputText id="txtNombre" binding="#{clienteVista.txtNombre}"/>
+							
+							<p:outputLabel value="Dirección"/>
+							<p:inputText id="txtDireccion" binding="#{clienteVista.txtDireccion}" />
+							
+							<p:outputLabel value="Telefono"/>
+							<p:inputText id="txtTelefono" binding="#{clienteVista.txtTelefono}" />
+							
+							<p:outputLabel value="Mail"/>
+							<p:inputText id="txtMail" binding="#{clienteVista.txtMail}"/>
+							
+						</h:panelGrid>
+						<h:panelGrid columns="4" border="0">
+							<p:commandButton id="btnCrear" value="Crear"         binding="#{clienteVista.btnCrear}"     disabled="true"   action="#{clienteVista.crearAction}"     update="msg, pnlFormularioClientes"/>
+							<p:commandButton id="btnModificar" value="Modificar" binding="#{clienteVista.btnModificar}" disabled="true"   action="#{clienteVista.modificarAction}" update="msg, pnlFormularioClientes"/>
+							<p:commandButton id="btnBorrar" value="Borrar"       binding="#{clienteVista.btnBorrar}"    disabled="true"   action="#{clienteVista.borrarAction}"    update="msg, pnlFormularioClientes"/>
+							<p:commandButton id="btnLimpiar" value="Limpiar"     binding="#{clienteVista.btnLimpiar}"   disabled="false"  action="#{clienteVista.limpiarAction}"   update="msg, pnlFormularioClientes"/>
+						</h:panelGrid>
+						<br/>
+						<p:accordionPanel>
+						<p:tab title="Listado de Clientes">
+						<p:dataTable id="tblCliente" var="cliente" value="#{clienteVista.losClientes}" 
+									 paginator="true" rows="5"
+									 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									 rowsPerPageTemplate="5,10,15">
+							<p:column headerText="Id" filterBy="#{cliente.cliId}">
+								<p:outputLabel value="#{cliente.cliId}" />
+							</p:column>
+							<p:column headerText="Nombre" filterBy="#{cliente.cliNombre}">
+								<p:outputLabel value="#{cliente.cliNombre}" />
+							</p:column>
+							<p:column headerText="Mail" filterBy="#{cliente.cliMail}">
+								<p:outputLabel value="#{cliente.cliMail}" />
+							</p:column>
+						</p:dataTable>
+						</p:tab>
+						</p:accordionPanel>
+					</p:panel>
+				</h:form>
+			</p:layoutUnit>
+		</p:layout>      
           
     </h:body>  
 </html> 
