@@ -9,7 +9,25 @@
       
     <h:body>  
 		
-		<p:editor />      
+		<h:graphicImage value="/img/logo-monopoly2.jpg" style="margin-left: auto; margin-right: auto; display: block;"/>
+		<p:layout style="min-width:400px;min-height:200px;">
+		    <p:layoutUnit position="west" resizable="true" >
+		        <p:menu toggleable="true">
+			        <p:submenu label="Catalogos">
+			            <p:menuitem value="Cliente" outcome="/cliente.xhtml" icon="ui-icon-star"/>
+			            <p:menuitem value="Usuarios" outcome="/usuario.xhtml" icon="ui-icon-star"/>
+			        </p:submenu>
+			        <p:submenu label="Transacciones">
+			            <p:menuitem value="Transacciones" outcome="/transacciones.xhtml" icon="ui-icon-star"/>
+			        </p:submenu>
+			    </p:menu>
+		    </p:layoutUnit>
+		 
+		    <p:layoutUnit position="center">
+				<h1>Bienvenido a su banco Monopoly</h1>
+				<p>Seleccione una opción del menú lateral</p>
+			</p:layoutUnit>
+		</p:layout>      
           
     </h:body>  
 </html> 

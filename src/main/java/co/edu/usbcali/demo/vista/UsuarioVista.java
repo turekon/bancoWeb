@@ -62,6 +62,8 @@ public class UsuarioVista {
 			
 			limpiarAction();
 			
+			losUsuarios = delegadoDeNegocio.consultarTodosUsuarios();
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario se ha grabado con éxito", ""));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
@@ -88,6 +90,8 @@ public class UsuarioVista {
 			
 			limpiarAction();
 			
+			losUsuarios = delegadoDeNegocio.consultarTodosUsuarios();
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario se ha modificado con éxito", ""));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
@@ -107,6 +111,8 @@ public class UsuarioVista {
 			delegadoDeNegocio.borrarUsuarios(usuarios);
 			
 			limpiarAction();
+			
+			losUsuarios = delegadoDeNegocio.consultarTodosUsuarios();
 			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario se ha eliminado con éxito", ""));
 		} catch (Exception e) {

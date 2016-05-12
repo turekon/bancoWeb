@@ -64,6 +64,8 @@ public class ClienteVista {
 			
 			limpiarAction();
 			
+			losClientes = delegadoDeNegocio.consultarTodosClientes();
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El cliente se creó con éxito", ""));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
@@ -89,6 +91,8 @@ public class ClienteVista {
 			
 			limpiarAction();
 			
+			losClientes = delegadoDeNegocio.consultarTodosClientes();
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El cliente se modificó con éxito", ""));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
@@ -106,6 +110,8 @@ public class ClienteVista {
 			delegadoDeNegocio.borrarClientes(clientes);
 			
 			limpiarAction();
+			
+			losClientes = delegadoDeNegocio.consultarTodosClientes();
 			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(FacesMessage.SEVERITY_INFO, "El cliente se eliminó con éxito", ""));
 		} catch (Exception e) {

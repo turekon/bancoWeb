@@ -59,22 +59,22 @@
 						</h:panelGrid>
 						<br/>
 						<p:accordionPanel>
-						<p:tab title="Listado de Clientes">
-						<p:dataTable id="tblCliente" var="cliente" value="#{clienteVista.losClientes}" 
-									 paginator="true" rows="5"
-									 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-									 rowsPerPageTemplate="5,10,15">
-							<p:column headerText="Id" filterBy="#{cliente.cliId}">
-								<p:outputLabel value="#{cliente.cliId}" />
-							</p:column>
-							<p:column headerText="Nombre" filterBy="#{cliente.cliNombre}">
-								<p:outputLabel value="#{cliente.cliNombre}" />
-							</p:column>
-							<p:column headerText="Mail" filterBy="#{cliente.cliMail}">
-								<p:outputLabel value="#{cliente.cliMail}" />
-							</p:column>
-						</p:dataTable>
-						</p:tab>
+							<p:tab title="Listado de Clientes">
+								<p:dataTable id="tblCliente" var="cliente" value="#{clienteVista.losClientes}" 
+											 paginator="true" rows="5"
+											 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											 rowsPerPageTemplate="5,10,15">
+									<p:column headerText="Id" filterBy="#{cliente.cliId}">
+										<p:outputLabel value="#{cliente.cliId}" />
+									</p:column>
+									<p:column headerText="Nombre" filterBy="#{cliente.cliNombre}">
+										<p:outputLabel value="#{cliente.cliNombre}" />
+									</p:column>
+									<p:column headerText="Mail" filterBy="#{cliente.cliMail}">
+										<p:outputLabel value="#{cliente.cliMail}" />
+									</p:column>
+								</p:dataTable>
+							</p:tab>
 						</p:accordionPanel>
 					</p:panel>
 				</h:form>
