@@ -24,8 +24,21 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:applicationContext.xml</param-value>
+		<param-value>classpath*:applicationContext.xml,classpath*:/mvc-dispatcher-servlet.xml</param-value>
 	</context-param>
+	
+	<!-- MVC -->
+	<servlet>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<url-pattern>/controller/*</url-pattern>
+	</servlet-mapping>
+	<!-- MVC -->
 
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>

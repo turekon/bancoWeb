@@ -207,7 +207,8 @@ public class TransaccionesVista {
 			if (lasCuentasItem == null) {
 				lasCuentasItem = new ArrayList<SelectItem>();
 				if (txtCedulaCliente.getValue() != null && !txtCedulaCliente.getValue().toString().trim().isEmpty()) {
-					List<Cuentas> listaCuentasItem = delegadoDeNegocio.consultarCuentasPorCliente(Long.parseLong(txtCedulaCliente.getValue().toString().trim()));
+					String estadoCuenta = "S";
+					List<Cuentas> listaCuentasItem = delegadoDeNegocio.consultarCuentasPorCliente(Long.parseLong(txtCedulaCliente.getValue().toString().trim()), estadoCuenta);
 					for (Cuentas cuentas : listaCuentasItem) {
 						lasCuentasItem.add(new SelectItem(cuentas.getCueNumero(), cuentas.getCueNumero()));
 					}					
@@ -319,7 +320,8 @@ public class TransaccionesVista {
 			if (lasCuentasItem == null) {
 				lasCuentasItem = new ArrayList<SelectItem>();
 				if (txtCedulaCliente.getValue() != null && !txtCedulaCliente.getValue().toString().trim().isEmpty()) {
-					List<Cuentas> listaCuentasItem = delegadoDeNegocio.consultarCuentasPorCliente(Long.parseLong(txtCedulaCliente.getValue().toString().trim()));
+					String estadoCuenta = "S";
+					List<Cuentas> listaCuentasItem = delegadoDeNegocio.consultarCuentasPorCliente(Long.parseLong(txtCedulaCliente.getValue().toString().trim()), estadoCuenta);
 					for (Cuentas cuentas : listaCuentasItem) {
 						lasCuentasItem.add(new SelectItem(cuentas.getCueNumero(), cuentas.getCueNumero()));
 					}					
