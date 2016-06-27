@@ -144,7 +144,7 @@ public class ClienteVista {
 			Long id = Long.parseLong(txtIdentificacion.getValue().toString().trim());
 			entity = delegadoDeNegocio.consultarClientesPorId(id);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		if (entity == null) {
@@ -203,7 +203,7 @@ public class ClienteVista {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return losTipoDocumentosItem;
 	}

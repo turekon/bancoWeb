@@ -215,7 +215,6 @@ public class TransaccionesVista {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -238,7 +237,6 @@ public class TransaccionesVista {
 //				}
 //			}
 //		} catch (Exception e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return losTipoDocumentosItem;
@@ -328,7 +326,6 @@ public class TransaccionesVista {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return lasCuentasItem;
@@ -349,7 +346,6 @@ public class TransaccionesVista {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return losCajerosItem;

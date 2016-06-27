@@ -146,7 +146,7 @@ public class UsuarioVista {
 			Long id = Long.parseLong(txtCedula.getValue().toString().trim());
 			entity = delegadoDeNegocio.consultarUsuariosPorId(id);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		if (entity == null) {
