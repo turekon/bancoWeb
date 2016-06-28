@@ -13,7 +13,7 @@ public class OperacionesMatematicasTest {
 
 	private static final Logger log = LoggerFactory.getLogger(OperacionesMatematicasTest.class);
 	
-	@Test
+	//@Test
 	public void aTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Resultado resultado = restTemplate.getForObject("http://localhost:8080/bancoWeb/controller/operacionesMatematicas/sumar/7/4", Resultado.class);
@@ -21,7 +21,7 @@ public class OperacionesMatematicasTest {
 		log.info(resultado.getValor().toString());
 	}
 	
-	@Test
+	//@Test
 	public void bTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Resultado resultado = restTemplate.getForObject("http://localhost:8080/bancoWeb/controller/operacionesMatematicas/restar/7/4", Resultado.class);
@@ -29,7 +29,7 @@ public class OperacionesMatematicasTest {
 		log.info(resultado.getValor().toString());
 	}
 	
-	@Test
+	//@Test
 	public void cTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Resultado resultado = restTemplate.getForObject("http://localhost:8080/bancoWeb/controller/operacionesMatematicas/multiplicar/7/4", Resultado.class);
@@ -37,7 +37,7 @@ public class OperacionesMatematicasTest {
 		log.info(resultado.getValor().toString());
 	}
 	
-	@Test
+	//@Test
 	public void dTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Resultado resultado = restTemplate.getForObject("http://localhost:8080/bancoWeb/controller/operacionesMatematicas/dividir/7/4", Resultado.class);
